@@ -17,7 +17,7 @@ pipeline {
             }
         }
         stage('Build') {
-            agent { docker { image: 'docker:dind' } }
+            agent { docker { image 'docker:dind' } }
             steps {
                 sh 'docker --version'
             }
