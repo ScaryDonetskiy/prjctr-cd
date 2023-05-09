@@ -1,12 +1,12 @@
 pipeline {
-    agent { docker { image 'node:18.16.0-alpine' } }
     stages {
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install --include-dev'
-            }
-        }
+        agent { docker { image 'node:18.16.0-alpine' } }
         stage('Run Checks') {
+            stage('Install Dependencies') {
+                steps {
+                    sh 'npm install --include-dev'
+                }
+            }
             parallel {
                 stage('Run Eslint') {
                     steps {
@@ -23,12 +23,7 @@ pipeline {
         stage('Build') {
             agent { label 'jenkins-docker' }
             steps {
-                sh 'docker pull node'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                input 'Deploy?'
+                sh 'echo Hello World'
             }
         }
     }
