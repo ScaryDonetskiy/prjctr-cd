@@ -6,18 +6,22 @@ pipeline {
                 sh 'npm install --include-dev'
             }
         }
-        stage('Run Eslint') {
-            steps {
-                sh 'npx eslint .'
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
+        stage('Run Checks') {
+            parallel {
+                stage('Run Eslint') {
+                    steps {
+                        sh 'npx eslint .'
+                    }
+                }
+                stage('Run Tests') {
+                    steps {
+                        sh 'npm test'
+                    }
+                }
             }
         }
         stage('Build') {
-            agent { docker { image 'docker:dind' } }
+            agent { label 'jenkins-docker' }
             steps {
                 sh 'docker --version'
             }
