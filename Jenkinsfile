@@ -23,7 +23,7 @@ pipeline {
         stage('Build') {
             agent { label 'jenkins-docker' }
             steps {
-                sh 'docker --version'
+                sh 'cat package.json'
             }
         }
     }
