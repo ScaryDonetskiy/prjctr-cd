@@ -23,7 +23,12 @@ pipeline {
         stage('Build') {
             agent { label 'jenkins-docker' }
             steps {
-                sh 'cat package.json'
+                docker pull node
+            }
+        }
+        stage('Deploy') {
+            steps {
+                input 'Deploy?'
             }
         }
     }
