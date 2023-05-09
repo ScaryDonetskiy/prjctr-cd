@@ -1,13 +1,41 @@
 version: "3.9"
 
 services:
-  jenkins:
-    image: jenkins/jenkins:latest
+  jenkins-docker:
+    image: docker:dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    ports:
+      - "2376:2376"
+    volumes:
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+    networks:
+      jenkins:
+        aliases:
+          - docker
+
+  jenkins-blueocean:
+    build:
+      context: .infrastructure
+      dockerfile: Jenkins.Dockerfile
+    environment:
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: 1
     ports:
       - "8080:8080"
+      - "50000:50000"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+    networks:
+      - jenkins
 
 volumes:
+  jenkins-docker-certs:
   jenkins-data:
+
+networks:
+  jenkins:
