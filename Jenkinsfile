@@ -1,4 +1,5 @@
 pipeline {
+    agent any
     stages {
         stage('Run Checks') {
             agent { docker { image 'node:18.16.0-alpine' } }
