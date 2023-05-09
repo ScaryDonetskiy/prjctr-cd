@@ -23,7 +23,7 @@ pipeline {
         stage('Build') {
             agent { label 'jenkins-docker' }
             steps {
-                docker pull node
+                sh 'docker pull node'
             }
         }
         stage('Deploy') {
