@@ -21,9 +21,9 @@ pipeline {
             }
         }
         stage('Build') {
-            agent { label 'jenkins-docker' }
+            agent { docker { image 'php:latest' } }
             steps {
-                sh 'echo Hello World'
+                sh 'php -v'
             }
         }
     }
