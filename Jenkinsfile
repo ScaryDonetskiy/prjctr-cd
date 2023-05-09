@@ -22,7 +22,13 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'node --version'
+                sh 'docker build -f .infrastructure/Service.Dockerfile . -t service:latest'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                input 'Deploy'
+                sh 'docker --version'
             }
         }
     }
