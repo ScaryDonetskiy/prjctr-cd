@@ -1,13 +1,7 @@
 pipeline {
-    agent none
+    agent any
     stages {
         stage('Install Dependencies') {
-            agent {
-                docker {
-                    image 'node:18.16.0-alpine'
-                    reuseNode true
-                }
-            }
             steps {
                 sh 'npm install --include-dev'
             }
@@ -15,23 +9,11 @@ pipeline {
         stage('Run Checks') {
             parallel {
                 stage('Run Eslint') {
-                    agent {
-                        docker {
-                            image 'node:18.16.0-alpine'
-                            reuseNode true
-                        }
-                    }
                     steps {
                         sh 'npx eslint .'
                     }
                 }
                 stage('Run Tests') {
-                    agent {
-                        docker {
-                            image 'node:18.16.0-alpine'
-                            reuseNode true
-                        }
-                    }
                     steps {
                         sh 'npm test'
                     }
@@ -39,9 +21,8 @@ pipeline {
             }
         }
         stage('Build') {
-            agent { docker { image 'php:latest' } }
             steps {
-                sh 'php -v'
+                sh 'node --version'
             }
         }
     }

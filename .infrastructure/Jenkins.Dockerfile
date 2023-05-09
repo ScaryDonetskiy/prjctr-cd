@@ -14,6 +14,9 @@ RUN echo "deb [arch=$(dpkg --print-architecture) \
 
 RUN apt-get update && apt-get install -y docker-ce-cli
 
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
 USER jenkins
 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow"
