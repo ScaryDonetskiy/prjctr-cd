@@ -12,19 +12,25 @@ pipeline {
             }
         }
         stage('Run Checks') {
-            agent {
-                docker {
-                    image 'node:18.16.0-alpine'
-                    reuseNode true
-                }
-            }
             parallel {
                 stage('Run Eslint') {
+                    agent {
+                        docker {
+                            image 'node:18.16.0-alpine'
+                            reuseNode true
+                        }
+                    }
                     steps {
                         sh 'npx eslint .'
                     }
                 }
                 stage('Run Tests') {
+                    agent {
+                        docker {
+                            image 'node:18.16.0-alpine'
+                            reuseNode true
+                        }
+                    }
                     steps {
                         sh 'npm test'
                     }
