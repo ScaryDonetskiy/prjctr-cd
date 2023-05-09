@@ -4,7 +4,7 @@ pipeline {
         stage('Install Dependencies') {
             agent { docker { image 'node:18.16.0-alpine' } }
             steps {
-                sh 'npm install'
+                sh 'npm install --include-dev'
             }
         }
         stage('Run Eslint') {
