@@ -1,7 +1,7 @@
 pipeline {
     stages {
-        agent { docker { image 'node:18.16.0-alpine' } }
         stage('Run Checks') {
+            agent { docker { image 'node:18.16.0-alpine' } }
             stage('Install Dependencies') {
                 steps {
                     sh 'npm install --include-dev'
